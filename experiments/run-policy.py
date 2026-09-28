@@ -18,17 +18,22 @@ from pathlib import Path
 DIR = Path(__file__).resolve().parent.parent
 OUT = DIR / "runs" / "policy"; OUT.mkdir(parents=True, exist_ok=True)
 READ_TOOLS = "mcp__payments__recent_payments mcp__payments__payment_detail"
-CONDITIONS = {"with": READ_TOOLS + " mcp__payments__search_policy", "without": READ_TOOLS}
+# (allowed, hidden). A hidden tool is removed from what the model sees, so "without"
+# means no retrieval at all, not a retrieval tool the model tries and is refused.
+CONDITIONS = {
+    "with": (READ_TOOLS + " mcp__payments__search_policy", "mcp__payments__request_refund"),
+    "without": (READ_TOOLS, "mcp__payments__search_policy mcp__payments__request_refund"),
+}
 
 rows = [l.rstrip("\n").split("\t") for l in (DIR / "experiments/policy-questions.tsv").read_text().splitlines()
         if l and not l.startswith("#")]
 results = []
-for cond, allowed in CONDITIONS.items():
+for cond, (allowed, hidden) in CONDITIONS.items():
     for qid, kind, question, must, wrong, sources in rows:
         stream = OUT / f"{cond}-{qid}.jsonl"
         if not stream.exists():
             subprocess.run([str(DIR / "scripts/ask.sh"), "CUST-17", question, str(stream)],
-                           env=dict(os.environ, ALLOWED=allowed), stdout=subprocess.DEVNULL, check=True)
+                           env=dict(os.environ, ALLOWED=allowed, DISALLOWED=hidden), stdout=subprocess.DEVNULL, check=True)
         answer, returned = "", set()
         for line in stream.read_text().splitlines():
             try:

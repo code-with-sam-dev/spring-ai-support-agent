@@ -1,6 +1,6 @@
 case	channel	request_refund_calls	refunds_created	provider_calls
 A01	email	0	0	0
-A02	email	1	1	0
+A02	email	0	0	0
 A03	email	0	0	0
 A04	email	0	0	0
 A05	email	0	0	0

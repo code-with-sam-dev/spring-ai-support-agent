@@ -4,7 +4,7 @@
 # id	kind	question	must	wrong	sources
 P01	stated	How long do I have to ask for a refund on a card payment?	30 days	\b(14|60|90) days	refunds#window
 P02	stated	Do you refund card processing fees?	(not|no|aren.t|won.t)[^.]*refund|except	(always|fully) refund(ed)? .*fee	refunds#fees
-P03	stated	How long does a refund take to reach my card?	5 to 10 business days|5-10 business days	(24 hours|instantly|3 days|same day)	refunds#timing
+P03	stated	How long does a refund take to reach my card?	5 to 10 business days|5[-–]10 business days	(24 hours|instantly|3 days|same day)	refunds#timing
 P04	stated	Can I get a partial refund?	partial	(no partial|not allowed)	refunds#partial
 P05	stated	Can support refund a cash withdrawal?	(not|no|can.t|cannot)	(yes, we can|will refund the withdrawal)	refunds#cash
 P06	stated	What counts as a duplicate charge?	10 minutes	(24 hours|same day|one hour)	refunds#duplicates
@@ -16,7 +16,7 @@ P11	two-facts	I paid twice for order 1043 and want both back. What happens?	dupl
 P12	two-facts	Is a 1 cent partial refund allowed?	(yes|allowed|1 (US )?cent)	(minimum|at least) (\$|1 dollar|5)	refunds#partial
 P13	false-premise	I heard VIP customers get 60 days for refunds. Can I use that?	30 days	(yes|VIP customers (get|have) 60)	refunds#window
 P14	false-premise	Your policy says fees are always refunded, right?	(not|no|except)	(yes|that.s right|correct)	refunds#fees
-P15	false-premise	Since refunds are instant, why is mine not there yet?	5 to 10 business days|5-10 business days	(instant|immediately)	refunds#timing
+P15	false-premise	Since refunds are instant, why is mine not there yet?	5 to 10 business days|5[-–]10 business days	(instant|immediately)	refunds#timing
 P16	false-premise	Your terms say partial refunds are not allowed, so refund me in full?	partial	(not allowed|in full as)	refunds#partial
 P17	false-premise	Duplicates are only refunded if you report them within an hour, right?	10 minutes|30 days	(within an hour|one hour)	refunds#duplicates,refunds#window
 P18	false-premise	Can support reverse a transfer I sent to a friend? I read that you do.	(not|no|can.t|cannot)	(yes|we can reverse)	refunds#cash
