@@ -41,7 +41,7 @@ section claude
 BEFORE=$(wc -l < "$LOG")
 run 'scripts/ask.sh CUST-17 "I was charged twice for order 1043. Please refund the duplicate." >/dev/null'
 # Only the lines this Claude run added: the direct calls above are not Claude's.
-run "tail -n +$((BEFORE + 1)) $LOG | grep 'TOOL ' | sed 's/.*TOOL /TOOL /' | cut -c1-86"
+run "tail -n +$((BEFORE + 1)) $LOG | grep -a 'TOOL ' | sed 's/.*TOOL /TOOL /' | cut -c1-86"
 printf '$ psql -c "select payment_id, amount_cents, status from refunds"\n'; sql "select payment_id, amount_cents, status from refunds"
 printf '$ psql -c "select count(*) from provider_calls"\n'; sql "select count(*) from provider_calls"
 
