@@ -115,6 +115,55 @@ class BoundaryTests {
     }
 
     @Test
+    void hostileAmountsAreRefused() throws Exception {
+        for (var amount : new long[] {-100, 0, 4901}) {
+            var result = call(ticket("CUST-17"), "request_refund",
+                    "{\"paymentId\":\"PAY-1043-B\",\"amountCents\":" + amount
+                            + ",\"reason\":\"x\"}");
+            assertThat(result).as("amount " + amount).contains("\"isError\":true");
+        }
+        assertThat(count("refunds")).isZero();
+    }
+
+    @Test
+    void anotherCustomersPaymentCannotBeRefunded() throws Exception {
+        var result = call(ticket("CUST-17"), "request_refund",
+                "{\"paymentId\":\"PAY-2210\",\"amountCents\":100,\"reason\":\"x\"}");
+        assertThat(result)
+                .contains("\"isError\":true", "No payment PAY-2210 on this ticket");
+        assertThat(count("refunds")).isZero();
+    }
+
+    @Test
+    void aFullyRefundedPaymentCannotBeRefundedAgain() throws Exception {
+        var id = requestDuplicateRefund();
+        assertThat(approve(lead(), id)).isEqualTo(200);
+        var again = call(ticket("CUST-17"), "request_refund",
+                "{\"paymentId\":\"PAY-1043-B\",\"amountCents\":4900,"
+                        + "\"reason\":\"again\"}");
+        assertThat(again).contains("\"isError\":true", "already fully refunded");
+        assertThat(count("provider_calls")).isEqualTo(1);
+    }
+
+    @Test
+    void twoRacingApprovalsPayOnce() throws Exception {
+        var id = requestDuplicateRefund();
+        var start = new java.util.concurrent.CountDownLatch(1);
+        var pool = java.util.concurrent.Executors.newFixedThreadPool(2);
+        java.util.concurrent.Callable<Integer> approveNow = () -> {
+            start.await();
+            return approve(lead(), id);
+        };
+        var a = pool.submit(approveNow);
+        var b = pool.submit(approveNow);
+        start.countDown();
+        assertThat(a.get()).isEqualTo(200);
+        assertThat(b.get()).isEqualTo(200);
+        pool.shutdown();
+        assertThat(count("provider_calls")).isEqualTo(1);
+    }
+
+    @Test
     void aForgedTokenIsRefused() throws Exception {
         var claims = "{\"sub\":\"x\",\"customer_id\":\"CUST-42\",\"scope\":\"ticket\","
                 + "\"exp\":" + inTenMinutes() + "}";

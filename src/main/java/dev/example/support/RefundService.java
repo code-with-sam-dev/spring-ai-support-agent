@@ -40,18 +40,27 @@ public class RefundService {
     @Transactional
     public Refund request(Ticket ticket, String paymentId, long amountCents,
                           String reason) {
-        var payment = db.sql("""
-                SELECT amount_cents FROM payments
-                WHERE id = :id AND customer_id = :customer""")
+        // What is left to refund on this customer's payment: the amount captured
+        // minus every refund already paid. Never the model's number.
+        var remaining = db.sql("""
+                SELECT p.amount_cents - coalesce(
+                    (SELECT sum(r.amount_cents) FROM refunds r
+                     WHERE r.payment_id = p.id AND r.status = 'EXECUTED'), 0)
+                FROM payments p
+                WHERE p.id = :id AND p.customer_id = :customer""")
                 .param("id", paymentId)
                 .param("customer", ticket.customerId())
                 .query(Long.class)
                 .optional()
                 .orElseThrow(() -> new IllegalArgumentException(
                         "No payment " + paymentId + " on this ticket"));
-        if (amountCents <= 0 || amountCents > payment) {
+        if (remaining == 0) {
             throw new IllegalArgumentException(
-                    "Refund must be between 1 and " + payment + " cents");
+                    "Payment " + paymentId + " is already fully refunded");
+        }
+        if (amountCents <= 0 || amountCents > remaining) {
+            throw new IllegalArgumentException(
+                    "Refund must be between 1 and " + remaining + " cents");
         }
         var id = UUID.randomUUID();
         try {
