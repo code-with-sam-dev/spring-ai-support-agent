@@ -38,10 +38,10 @@ section policy
 run 'scripts/mcp.py $TICKET search_policy "{\"question\":\"Do you refund processing fees?\"}" | jq -r ".content[0].text | fromjson[0] | \"\(.source)  \(.text)\""'
 
 section claude
-BEFORE=$(wc -l < "$LOG")
-run 'scripts/ask.sh CUST-17 "I was charged twice for order 1043. Please refund the duplicate." >/dev/null'
-# Only the lines this Claude run added: the direct calls above are not Claude's.
-run "tail -n +$((BEFORE + 1)) $LOG | grep -a 'TOOL ' | sed 's/.*TOOL /TOOL /' | cut -c1-86"
+# Claude's own stream is the record of what it called; parallel calls can
+# interleave in a shared log file, so the frame is built from the stream.
+run 'scripts/ask.sh CUST-17 "I was charged twice for order 1043. Please refund the duplicate." runs/demo-claude.jsonl >/dev/null'
+run "jq -r 'select(.type==\"assistant\") | .message.content[]? | select(.type==\"tool_use\") | \"\\(.name | sub(\"mcp__payments__\";\"\")) \\(.input | tojson)\"' runs/demo-claude.jsonl | cut -c1-86"
 printf '$ psql -c "select payment_id, amount_cents, status from refunds"\n'; sql "select payment_id, amount_cents, status from refunds"
 printf '$ psql -c "select count(*) from provider_calls"\n'; sql "select count(*) from provider_calls"
 
