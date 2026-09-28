@@ -18,7 +18,8 @@ public class RefundTools {
     }
 
     @McpTool(name = "request_refund",
-            description = "Ask for a refund on one of this customer's payments. A person approves it; nothing is paid by this call.")
+            description = "Ask for a refund on one of this customer's payments. "
+                    + "A person approves it; nothing is paid by this call.")
     public RefundService.Refund requestRefund(
             @McpToolParam(description = "Payment id, e.g. PAY-1043-B") String paymentId,
             @McpToolParam(description = "Amount in cents") long amountCents,

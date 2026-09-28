@@ -1,13 +1,16 @@
 # Refund policy
 
 ## window
-Card payments can be refunded within 30 days of capture. After 30 days a refund needs a manager's exception.
+Card payments can be refunded within 30 days of capture. After 30 days a refund
+needs a manager's exception.
 
 ## duplicates
-A payment captured twice for the same order within 10 minutes is a duplicate. The duplicate is refunded in full.
+A payment captured twice for the same order within 10 minutes is a duplicate.
+The duplicate is refunded in full.
 
 ## partial
-Partial refunds are allowed, down to 1 US cent, as long as the total refunded never exceeds the amount captured.
+Partial refunds are allowed, down to 1 US cent, as long as the total refunded
+never exceeds the amount captured.
 
 ## fees
 Card processing fees are not refunded, except when the whole payment was a duplicate.

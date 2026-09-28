@@ -15,6 +15,8 @@ public class CardNetwork {
     }
 
     public void refund(UUID refundId) {
-        db.sql("INSERT INTO provider_calls (refund_id) VALUES (:r)").param("r", refundId).update();
+        db.sql("INSERT INTO provider_calls (refund_id) VALUES (:r)")
+                .param("r", refundId)
+                .update();
     }
 }

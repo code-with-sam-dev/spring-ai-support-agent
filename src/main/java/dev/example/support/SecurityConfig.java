@@ -31,8 +31,10 @@ public class SecurityConfig {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/mcp/**").hasAuthority("SCOPE_ticket")
-                        .requestMatchers("/admin/**").hasAuthority("SCOPE_refunds:approve")
+                        .requestMatchers("/mcp/**")
+                                .hasAuthority("SCOPE_ticket")
+                        .requestMatchers("/admin/**")
+                                .hasAuthority("SCOPE_refunds:approve")
                         .anyRequest().denyAll())
                 .oauth2ResourceServer(oauth -> oauth.jwt(jwt -> {}))
                 .build();
@@ -40,7 +42,10 @@ public class SecurityConfig {
 
     @Bean
     JwtDecoder jwtDecoder(@Value("${support.jwt.secret}") String secret) {
-        var key = new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), "HmacSHA256");
-        return NimbusJwtDecoder.withSecretKey(key).macAlgorithm(MacAlgorithm.HS256).build();
+        byte[] bytes = secret.getBytes(StandardCharsets.UTF_8);
+        var key = new SecretKeySpec(bytes, "HmacSHA256");
+        return NimbusJwtDecoder.withSecretKey(key)
+                .macAlgorithm(MacAlgorithm.HS256)
+                .build();
     }
 }

@@ -30,19 +30,29 @@ public class PaymentTools {
 
     @McpTool(name = "payment_detail",
             description = "One payment of the customer this ticket is about")
-    public PaymentView paymentDetail(@McpToolParam(description = "Payment id, e.g. PAY-1043-A") String paymentId) {
-        return db.sql("SELECT * FROM payments WHERE id = :id AND customer_id = :customer")
+    public PaymentView paymentDetail(
+            @McpToolParam(description = "Payment id, e.g. PAY-1043-A")
+            String paymentId) {
+        return db.sql("""
+                SELECT * FROM payments
+                WHERE id = :id AND customer_id = :customer""")
                 .param("id", paymentId)
                 .param("customer", Ticket.current().customerId())
                 .query(PaymentTools::view)
                 .optional()
-                .orElseThrow(() -> new IllegalArgumentException("No payment " + paymentId + " on this ticket"));
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "No payment " + paymentId + " on this ticket"));
     }
 
     static PaymentView view(ResultSet rs, int row) throws SQLException {
-        return new PaymentView(rs.getString("id"), rs.getString("order_ref"), rs.getString("merchant"),
-                rs.getLong("amount_cents"), rs.getString("currency"),
-                PaymentView.mask(rs.getString("card_number")), rs.getString("status"),
+        return new PaymentView(
+                rs.getString("id"),
+                rs.getString("order_ref"),
+                rs.getString("merchant"),
+                rs.getLong("amount_cents"),
+                rs.getString("currency"),
+                PaymentView.mask(rs.getString("card_number")),
+                rs.getString("status"),
                 rs.getTimestamp("captured_at").toInstant());
     }
 }

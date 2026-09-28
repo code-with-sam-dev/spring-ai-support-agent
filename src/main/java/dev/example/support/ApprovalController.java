@@ -8,7 +8,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/** The approval a person gives. It is HTTP, not an MCP tool, so the model cannot reach it. */
+/**
+ * The approval a person gives. It is HTTP, not an MCP tool, so the model cannot
+ * reach it.
+ */
 @RestController
 public class ApprovalController {
 
@@ -19,7 +22,9 @@ public class ApprovalController {
     }
 
     @PostMapping("/admin/refunds/{id}/approve")
-    public Map<String, String> approve(@PathVariable UUID id, @AuthenticationPrincipal Jwt lead) {
-        return Map.of("refund", id.toString(), "result", refunds.approve(id, lead.getSubject()));
+    public Map<String, String> approve(@PathVariable UUID id,
+                                       @AuthenticationPrincipal Jwt lead) {
+        String result = refunds.approve(id, lead.getSubject());
+        return Map.of("refund", id.toString(), "result", result);
     }
 }

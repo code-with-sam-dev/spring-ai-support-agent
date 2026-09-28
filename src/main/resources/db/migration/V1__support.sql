@@ -56,7 +56,11 @@ INSERT INTO customers VALUES
     ('CUST-42', 'Tom Lindqvist', 'tom@example.com');
 
 INSERT INTO payments VALUES
-    ('PAY-1043-A', 'CUST-17', '1043', 'Northwind Books', 4900, 'USD', '4242424242424242', 'CAPTURED', now() - interval '2 days'),
-    ('PAY-1043-B', 'CUST-17', '1043', 'Northwind Books', 4900, 'USD', '4242424242424242', 'CAPTURED', now() - interval '2 days' + interval '40 seconds'),
-    ('PAY-1051',   'CUST-17', '1051', 'Contoso Coffee',   650, 'USD', '4242424242424242', 'CAPTURED', now() - interval '1 day'),
-    ('PAY-2210',   'CUST-42', '2210', 'Fabrikam Audio', 31900, 'USD', '5555555555554444', 'CAPTURED', now() - interval '3 days');
+    ('PAY-1043-A', 'CUST-17', '1043', 'Northwind Books',  4900, 'USD',
+     '4242424242424242', 'CAPTURED', now() - interval '2 days'),
+    ('PAY-1043-B', 'CUST-17', '1043', 'Northwind Books',  4900, 'USD',
+     '4242424242424242', 'CAPTURED', now() - interval '2 days' + interval '40 seconds'),
+    ('PAY-1051',   'CUST-17', '1051', 'Contoso Coffee',    650, 'USD',
+     '4242424242424242', 'CAPTURED', now() - interval '1 day'),
+    ('PAY-2210',   'CUST-42', '2210', 'Fabrikam Audio',  31900, 'USD',
+     '5555555555554444', 'CAPTURED', now() - interval '3 days');

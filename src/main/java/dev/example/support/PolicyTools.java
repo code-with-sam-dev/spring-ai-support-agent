@@ -15,8 +15,10 @@ public class PolicyTools {
     }
 
     @McpTool(name = "search_policy",
-            description = "Search the refund policy. Answer policy questions only from these passages, and cite their source ids.")
-    public List<PolicyLibrary.Passage> searchPolicy(@McpToolParam(description = "The customer's question") String question) {
+            description = "Search the refund policy. Answer policy questions only from "
+                    + "these passages, and cite their source ids.")
+    public List<PolicyLibrary.Passage> searchPolicy(
+            @McpToolParam(description = "The customer's question") String question) {
         return policy.search(question);
     }
 }
