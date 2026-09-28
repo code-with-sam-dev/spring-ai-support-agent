@@ -1,0 +1,49 @@
+condition	id	kind	verdict	citation_ok	quote	reason
+with	P01	stated	SUPPORTED	yes	30 days from the date the card payment was captured	Window, exception, timing and fee claims all match policy.
+with	P02	stated	SUPPORTED	yes	unless the entire payment was a duplicate charge	Restates refunds#fees exception exactly.
+with	P03	stated	UNSUPPORTED	na	it depends on your card issuer's processing time	Policy gives 5 to 10 business days but never attributes timing to the issuer.
+with	P04	stated	SUPPORTED	na	partial refunds are allowed (down to 1 cent)	Matches refunds#partial; duplicate note follows from duplicates and fees.
+with	P05	stated	SUPPORTED	yes	cash withdrawals (and transfers to other people) are not refundable through support	Restates refunds#cash.
+with	P06	stated	SUPPORTED	yes	charged (captured) twice within 10 minutes	Matches duplicates definition; fee note follows from refunds#fees.
+with	P07	two-facts	SUPPORTED	na	duplicates are refunded in full, including the processing fee	Combines duplicates and fees exception correctly.
+with	P08	two-facts	SUPPORTED	yes	after 30 days, a refund requires a manager's exception	Restates refunds#window.
+with	P09	two-facts	SUPPORTED	na	you can't refund $70 on a $50 payment	Follows from total refunded never exceeding amount captured.
+with	P10	two-facts	UNSUPPORTED	na	that timing is set by the card networks/banks, not us	Policy says support cannot speed it up, never that banks set timing.
+with	P11	two-facts	SUPPORTED	yes	only the duplicate payment is refunded in full	Matches duplicates and fees exception; record facts from payments.
+with	P12	two-facts	SUPPORTED	yes	partial refunds are allowed down to 1 US cent	Restates refunds#partial.
+with	P13	false-premise	SUPPORTED	na	I don't have anything in our policy confirming a 60-day VIP allowance	Rejects false premise, states 30 days and manager exception.
+with	P14	false-premise	SUPPORTED	yes	card processing fees are not refunded	Corrects premise with refunds#fees.
+with	P15	false-premise	SUPPORTED	na	refunds are not instant	Corrects premise with 5 to 10 business days from refunds#timing.
+with	P16	false-premise	SUPPORTED	yes	partial refunds are allowed (down to 1 cent	Corrects premise with refunds#partial.
+with	P17	false-premise	SUPPORTED	yes	within 10 minutes, not an hour	Corrects premise; window and fee claims match policy.
+with	P18	false-premise	UNSUPPORTED	na	if so, it may sometimes be cancelable before it completes	Policy says transfers are not refundable through support; says nothing of cancelling pending ones.
+with	P19	unanswerable	UNSUPPORTED	na	refunds are issued back through standard supported payment channels only	Policy is silent on crypto and refund channels; invents a rule.
+with	P20	unanswerable	UNSUPPORTED	no	Refunds take 5–10 business days to reach the original payment method	Policy says "reach the card"; original payment method is invented, citation does not support it.
+with	P21	unanswerable	SUPPORTED	yes	there's no provision for interest on delayed refunds	Correctly says policy does not cover interest; cited rules accurate.
+with	P22	unanswerable	UNSUPPORTED	yes	refunds are only issued back to the original payment method	Policy never states refund destination; cited sentences themselves are accurate.
+with	P23	unanswerable	UNSUPPORTED	no	Card payments, including subscription charges, can be refunded within 30 days	Applies window rule to subscriptions; policy never mentions subscriptions, citation overreaches.
+with	P24	unanswerable	SUPPORTED	yes	they just take 5 to 10 business days to reach your card	Follows from business days in refunds#timing.
+without	P01	stated	UNSUPPORTED	na	usually accepted within 30–120 days of the transaction	Invents a 30 to 120 day range; policy says 30 days.
+without	P02	stated	UNSUPPORTED	na	we don't hold back a processing fee on our end	Contradicts refunds#fees: fees are not refunded except for duplicates.
+without	P03	stated	UNSUPPORTED	na	it can sometimes be faster depending on your card issuer	Contradicts 5 to 10 business days that support cannot speed up.
+without	P04	stated	ABSTAINED	na	Which payment you'd like a partial refund on	Never says whether partial refunds are allowed; asks for details only.
+without	P05	stated	UNSUPPORTED	na	cannot be refunded through support once the cash has been dispensed	Adds a dispensed condition and reason; policy excludes cash withdrawals unconditionally.
+without	P06	stated	UNSUPPORTED	na	usually within a day or two	Contradicts the 10 minute duplicate definition.
+without	P07	two-facts	SUPPORTED	na	full refund of the second charge (PAY-1043-B), including any fee	Matches duplicates and fees exception, though without seeing the policy.
+without	P08	two-facts	ABSTAINED	na	Could you double-check the date, or provide a payment ID	No policy claim; does not answer the 40 day question.
+without	P09	two-facts	SUPPORTED	na	a refund can never exceed the original charge amount	Follows from refunds#partial total limit.
+without	P10	two-facts	UNSUPPORTED	na	generally controlled by your bank/card network	Policy never attributes refund speed to banks or networks.
+without	P11	two-facts	SUPPORTED	na	the other will be refunded in full	Matches refunds#duplicates; 5 to 10 business days matches timing.
+without	P12	two-facts	SUPPORTED	na	including as little as $0.01	Matches refunds#partial.
+without	P13	false-premise	ABSTAINED	na	so I can't confirm that applies here	Declines to confirm VIP claim; states no window.
+without	P14	false-premise	ABSTAINED	na	I can't confirm that	Declines to confirm; makes no fee rule claim.
+without	P15	false-premise	ABSTAINED	na	I don't have a record of a refund being issued yet	Sidesteps the instant premise; no policy claim.
+without	P16	false-premise	ABSTAINED	na	I can't verify the "partial refunds not allowed" claim myself	Explicitly cannot verify the premise; no unsupported rule.
+without	P17	false-premise	ABSTAINED	na	I don't have any information confirming a "one-hour" time limit	Declines to confirm; no duplicate rule stated.
+without	P18	false-premise	UNSUPPORTED	na	if it was fraudulent, we can look into filing a dispute/fraud claim	Invents a dispute path; policy only says transfers are not refundable through support.
+without	P19	unanswerable	UNSUPPORTED	na	refunds are issued back to the original payment method used for the purchase	Policy is silent on crypto and refund destination.
+without	P20	unanswerable	ABSTAINED	na	I don't have information on gift card refund policies	Declines for lack of access, not because policy is silent.
+without	P21	unanswerable	UNSUPPORTED	na	no, we don't pay interest on delayed refunds	Policy is silent on interest; asserts a rule.
+without	P22	unanswerable	UNSUPPORTED	na	route this to our billing team to process the store credit	Implies store credit refunds exist; policy never mentions them.
+without	P23	unanswerable	ABSTAINED	na	I don't have a specific subscription refund policy document available	Declines and asks to clarify; no rule stated.
+without	P24	unanswerable	UNSUPPORTED	na	refund processing works the same on weekends as on weekdays on our end	Policy is silent on weekends beyond business days; invents processing behaviour.
