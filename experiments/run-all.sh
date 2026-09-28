@@ -7,6 +7,7 @@ set -e
 DIR=$(cd "$(dirname "$0")/.." && pwd); cd "$DIR"
 LOGS=${LOGS:-runs/logs}; mkdir -p "$LOGS" runs/legit
 export $(cat .env.local)
+. scripts/java25.sh
 start() {  # start <log> [extra policy location]
   pkill -f support-agent-0.0.1 || true; sleep 2
   docker compose down -v >/dev/null 2>&1; docker compose up -d >/dev/null 2>&1

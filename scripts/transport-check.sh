@@ -6,7 +6,7 @@
 set -e
 DIR=$(cd "$(dirname "$0")/.." && pwd); cd "$DIR"
 export $(cat .env.local)
-JAVA_HOME=${JAVA_HOME_25:-$HOME/.sdkman/candidates/java/25.0.4-amzn}
+. scripts/java25.sh
 probe() {  # probe <label> [extra args]
   LOG=$(mktemp); PORT=8431
   "$JAVA_HOME/bin/java" -jar target/support-agent-0.0.1-SNAPSHOT.jar --server.port=$PORT "$@" > "$LOG" 2>&1 &

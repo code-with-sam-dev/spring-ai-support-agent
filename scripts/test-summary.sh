@@ -3,7 +3,7 @@
 #   scripts/test-summary.sh
 set -e
 DIR=$(cd "$(dirname "$0")/.." && pwd); cd "$DIR"
-JAVA_HOME=${JAVA_HOME_25:-$HOME/.sdkman/candidates/java/25.0.4-amzn}; export JAVA_HOME
+. scripts/java25.sh
 printf '$ ./mvnw test\n'
 ./mvnw -q test >/dev/null 2>&1 || true
 python3 - <<'PY'

@@ -7,8 +7,7 @@ set -e
 DIR=$(cd "$(dirname "$0")/.." && pwd); cd "$DIR"
 [ -f .env.local ] || python3 -c "import secrets;print('SUPPORT_JWT_SECRET='+secrets.token_hex(32))" > .env.local
 export $(cat .env.local)
-# JDK 25 explicitly: a JAVA_HOME left pointing at an older JDK cannot run the jar.
-JAVA_HOME=${JAVA_HOME_25:-$HOME/.sdkman/candidates/java/25.0.4-amzn}; export JAVA_HOME
+. scripts/java25.sh
 LOG=${LOG:-/tmp/support-agent-demo.log}
 
 pkill -f support-agent-0.0.1 2>/dev/null || true; sleep 2
