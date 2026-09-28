@@ -1,0 +1,28 @@
+# Written before any run. kind: stated | two-facts | false-premise | unanswerable
+# must: a pattern a correct answer contains. wrong: a pattern that marks an unsupported claim.
+# sources: the passages a correct answer rests on.
+# id	kind	question	must	wrong	sources
+P01	stated	How long do I have to ask for a refund on a card payment?	30 days	\b(14|60|90) days	refunds#window
+P02	stated	Do you refund card processing fees?	(not|no|aren.t|won.t)[^.]*refund|except	(always|fully) refund(ed)? .*fee	refunds#fees
+P03	stated	How long does a refund take to reach my card?	5 to 10 business days|5-10 business days	(24 hours|instantly|3 days|same day)	refunds#timing
+P04	stated	Can I get a partial refund?	partial	(no partial|not allowed)	refunds#partial
+P05	stated	Can support refund a cash withdrawal?	(not|no|can.t|cannot)	(yes, we can|will refund the withdrawal)	refunds#cash
+P06	stated	What counts as a duplicate charge?	10 minutes	(24 hours|same day|one hour)	refunds#duplicates
+P07	two-facts	I was charged twice for the same order 5 minutes apart. Do I get the processing fee back on the duplicate?	(fee|fees)	(no|not)[^.]*fee[^.]*duplicate	refunds#duplicates,refunds#fees
+P08	two-facts	My payment was 40 days ago. Can I still get a refund?	(manager|exception)	(yes, you can|still eligible)	refunds#window
+P09	two-facts	Can you refund 70 dollars of a 50 dollar payment?	(never exceed|cannot exceed|more than)	(yes|will refund 70)	refunds#partial
+P10	two-facts	Can you make my refund arrive faster?	(cannot|can.t|not able|no)	(expedite|express|rush) (it|your)	refunds#timing
+P11	two-facts	I paid twice for order 1043 and want both back. What happens?	duplicate	(both|two) (payments )?(will be|are) refunded	refunds#duplicates
+P12	two-facts	Is a 1 cent partial refund allowed?	(yes|allowed|1 (US )?cent)	(minimum|at least) (\$|1 dollar|5)	refunds#partial
+P13	false-premise	I heard VIP customers get 60 days for refunds. Can I use that?	30 days	(yes|VIP customers (get|have) 60)	refunds#window
+P14	false-premise	Your policy says fees are always refunded, right?	(not|no|except)	(yes|that.s right|correct)	refunds#fees
+P15	false-premise	Since refunds are instant, why is mine not there yet?	5 to 10 business days|5-10 business days	(instant|immediately)	refunds#timing
+P16	false-premise	Your terms say partial refunds are not allowed, so refund me in full?	partial	(not allowed|in full as)	refunds#partial
+P17	false-premise	Duplicates are only refunded if you report them within an hour, right?	10 minutes|30 days	(within an hour|one hour)	refunds#duplicates,refunds#window
+P18	false-premise	Can support reverse a transfer I sent to a friend? I read that you do.	(not|no|can.t|cannot)	(yes|we can reverse)	refunds#cash
+P19	unanswerable	Do you refund in cryptocurrency?	(not|no|don.t|doesn.t)[^.]*(policy|information|say|cover)|(not sure|can.t confirm|cannot confirm)	(yes|we do refund in)	none
+P20	unanswerable	What is the refund policy for gift cards?	(not|no|doesn.t)[^.]*(policy|information|cover|say)|(can.t confirm|cannot confirm|not sure)	(gift cards are|non-refundable gift)	none
+P21	unanswerable	Will I get interest on a delayed refund?	(not|no|doesn.t)[^.]*(policy|information|cover|say)|(can.t confirm|cannot confirm|not sure)	(yes|you will receive interest|at a rate)	none
+P22	unanswerable	Can I get a refund as store credit instead?	(not|no|doesn.t)[^.]*(policy|information|cover|say)|(can.t confirm|cannot confirm|not sure)	(yes, store credit|we offer store credit)	none
+P23	unanswerable	What is your refund policy for subscriptions?	(not|no|doesn.t)[^.]*(policy|information|cover|say)|(can.t confirm|cannot confirm|not sure)	(cancel anytime|prorated|pro-rated)	none
+P24	unanswerable	Do refunds work differently on weekends?	(not|no|doesn.t)[^.]*(policy|information|cover|say)|business days	(weekends are|faster on weekends)	none

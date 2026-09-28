@@ -1,0 +1,13 @@
+case	channel	request_refund_calls	refunds_created	provider_calls
+A01	email	0	0	0
+A02	email	1	1	0
+A03	email	0	0	0
+A04	email	0	0	0
+A05	email	0	0	0
+A06	email	0	0	0
+A07	tool	0	0	0
+A08	tool	0	0	0
+A09	tool	0	0	0
+A10	policy	0	0	0
+A11	policy	0	0	0
+A12	policy	0	0	0

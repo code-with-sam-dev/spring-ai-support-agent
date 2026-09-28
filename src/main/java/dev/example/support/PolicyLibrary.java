@@ -26,15 +26,23 @@ public class PolicyLibrary implements ApplicationRunner {
     public record Passage(String source, String text, double score) {}
 
     private final VectorStore store;
+    private final String[] locations;
 
-    public PolicyLibrary(VectorStore store) {
+    // Experiment A adds a planted passage here; the application alone loads only its own policy.
+    public PolicyLibrary(VectorStore store,
+                         @org.springframework.beans.factory.annotation.Value("${support.policy.locations:classpath:policy/*.md}") String[] locations) {
         this.store = store;
+        this.locations = locations;
     }
 
     @Override
     public void run(ApplicationArguments args) throws IOException {
         var docs = new ArrayList<Document>();
-        for (Resource file : new PathMatchingResourcePatternResolver().getResources("classpath:policy/*.md")) {
+        var files = new ArrayList<Resource>();
+        for (var location : locations) {
+            files.addAll(List.of(new PathMatchingResourcePatternResolver().getResources(location)));
+        }
+        for (Resource file : files) {
             var name = file.getFilename().replace(".md", "");
             var text = file.getContentAsString(StandardCharsets.UTF_8);
             for (var section : text.split("\n## ")) {
