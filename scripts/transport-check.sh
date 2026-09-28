@@ -13,11 +13,12 @@ probe() {  # probe <label> [extra args]
   PID=$!
   until grep -qE "Started SupportAgent|APPLICATION FAILED|Exception in thread" "$LOG"; do sleep 1; done
   TOKEN=$(scripts/token.py ticket CUST-17)
-  for path in /mcp /sse; do
-    printf '$ curl %s  ->  ' "$path"
-    curl -s -o /dev/null -m 3 -w 'HTTP %{http_code}\n' -H "Authorization: Bearer $TOKEN" \
-      -H 'Accept: application/json, text/event-stream' "localhost:$PORT$path" || echo "no answer"
-  done
+  printf '$ curl -X POST /mcp  (MCP initialize)  ->  '
+  curl -s -o /dev/null -m 5 -w 'HTTP %{http_code}\n' -X POST "localhost:$PORT/mcp" \
+    -H "Authorization: Bearer $TOKEN" -H 'Content-Type: application/json' \
+    -H 'Accept: application/json, text/event-stream' \
+    -d '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18","capabilities":{},"clientInfo":{"name":"curl","version":"1"}}}' \
+    || echo "no answer"
   kill $PID; wait $PID 2>/dev/null || true; rm -f "$LOG"
 }
 printf '### protocol left unset\n'

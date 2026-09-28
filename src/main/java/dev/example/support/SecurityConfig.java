@@ -31,6 +31,9 @@ public class SecurityConfig {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
+                        // Errors keep their real status: a missing endpoint
+                        // answers 404, not 403.
+                        .requestMatchers("/error").permitAll()
                         .requestMatchers("/mcp/**")
                                 .hasAuthority("SCOPE_ticket")
                         .requestMatchers("/admin/**")
